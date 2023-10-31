@@ -15,6 +15,7 @@ export type TodosContext = {
     todos: Todo[];
     handleAddTodo: (task:string) => void;
     toggleTodoCompleted: (id:string) => void;
+    handleDeleteTodo: (id:string) => void;
 }
 export const todosContext = createContext<TodosContext | null>(null)
 
@@ -46,7 +47,14 @@ export const TodosProvider = ({ children }:TodosProviderProps) => {
             return newTodos
         })
     }
-    return <todosContext.Provider value={{todos, handleAddTodo, toggleTodoCompleted}}>
+
+    const handleDeleteTodo = (id:string) => {
+        setTodos(prev => {
+            const newTodos = prev.filter(todo => todo.id !== id)
+            return newTodos
+        })
+    }
+    return <todosContext.Provider value={{todos, handleAddTodo, toggleTodoCompleted, handleDeleteTodo}}>
         {children}
     </todosContext.Provider>
 }
