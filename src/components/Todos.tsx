@@ -22,7 +22,7 @@ const Todos = () => {
     }
 
   return (
-    <ul>
+    <ul className="main-task">
         {filterData.map(todo => {
             return <li key={todo.id}>
                 <input type="checkbox" id={`todo-${todo.id}`} checked={todo.completed} onChange={() => toggleTodoCompleted(todo.id)} />
