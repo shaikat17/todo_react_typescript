@@ -14,6 +14,7 @@ export type Todo = {
 export type TodosContext = {
     todos: Todo[];
     handleAddTodo: (task:string) => void;
+    toggleTodoCompleted: (id:string) => void;
 }
 export const todosContext = createContext<TodosContext | null>(null)
 
@@ -30,11 +31,22 @@ export const TodosProvider = ({ children }:TodosProviderProps) => {
                 },
                 ...prev
             ]
-            console.log(newTodos)
             return newTodos
         })
     }
-    return <todosContext.Provider value={{todos, handleAddTodo}}>
+
+    const toggleTodoCompleted = (id:string) => {
+        setTodos((prev) => {
+            const newTodos = prev.map(todo => {
+                if(todo.id === id) {
+                    return {...todo, completed: !todo.completed}
+                }
+                return todo
+            })
+            return newTodos
+        })
+    }
+    return <todosContext.Provider value={{todos, handleAddTodo, toggleTodoCompleted}}>
         {children}
     </todosContext.Provider>
 }
